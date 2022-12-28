@@ -1,0 +1,111 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Search
+{% endblock %}
+
+{% block main %}
+<script async>
+//Alert creation
+    let alertPlaceholder = document.querySelector('#liveAlertPlaceholder')
+    const alertdiv = (message, type) => {
+      const wrapper = document.createElement('div')
+      wrapper.innerHTML = [
+        `<div class="alert alert-${type} alert-dismissible" role="alert">`,
+        `   <div>${message}</div>`,
+        '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+        '</div>'
+      ].join('')
+    
+      alertPlaceholder.append(wrapper)
+    }
+  //Responce on coin search 
+  let coin = {}
+  function search() {
+    const xhttp = new XMLHttpRequest();
+    xhttp.onload = function() { 
+      coin = JSON.parse(this.responseText)
+      if(coin == 1){
+          alertPlaceholder = document.querySelector('#liveAlertPlaceholder')
+          alertdiv('Wrong coin', 'danger')
+      }else{
+        alertPlaceholder = document.querySelector('#liveAlertPlaceholder')
+        document.querySelector('#symbol').innerHTML = coin.symbol
+        document.querySelector('#name').innerHTML = coin.name
+        document.querySelector('#price').innerHTML = 'Price: '+coin.price+'$'
+        document.querySelector('#picture').src= 'https://s2.coinmarketcap.com/static/img/coins/64x64/'+coin.id+'.png'
+        document.querySelector('#responce').style = 'opacity:1'
+      }
+    }
+    xhttp.open("GET", "coin?q=" + document.querySelector("#stock").value);
+    xhttp.send();
+  };
+
+  //Add coins to portfolio
+  function add(){
+      let amount = $('#amount').val()
+      $.post("/add_coins",
+      {
+        amount: amount,
+        symbol: coin.symbol ,
+        name : coin.name,
+        price : coin.price
+      },
+      function(responce){
+          if(responce == 'ok'){
+            alertdiv('Successfully added '+ amount+coin.symbol, 'success')
+          }else{
+            alertdiv('Failed to add '+ amount+coin.symbol, 'danger')
+          }
+      })
+  };
+
+  //Del coins from portfoilio
+    function del(){
+      let amount = $('#amount').val()
+      $.post("/del_coins",
+      {
+        amount: amount,
+        symbol: coin.symbol ,
+        name : coin.name,
+        price : coin.price
+      },
+      function(responce){
+          if(responce == 'ok'){
+            alertdiv('Successfully deleted'+ amount+coin.symbol, 'success')
+          }else{
+            alertdiv('Failed to delete'+ amount+coin.symbol, 'danger')
+          }
+      })
+    };
+</script>
+            <div class="searchbox m-5 text-center">
+              <input autocomplete="off" autofocus class="form-control me-3 w-auto " id="stock" placeholder="Enter symbol" type="text">
+              <button class="btn btn-primary" onclick="search()" id="search">Search</button>
+            </div>
+            <div id="liveAlertPlaceholder" class="container text-center mt-3"></div> 
+        <div id="responce" style="opacity:0;">
+          <div id="responce-container">
+            <div id="token-info" >
+              <div id="pic-container"><img role="coin logo" height="50" width="50" id="picture" src="" alt="logo"></div>
+              <div id="token-name">
+                <div id="symbol"></div>
+                <div id="name"></div>
+              </div>
+            </div>
+            <div></div>
+            <div id="price"></div>
+            <div id="input-container">
+              <label>
+                Amount: 
+                <input role="amount input" id="amount" type="number" min="0" autofocus autocomplete="off">
+              </label>
+            </div>
+            <div class="but-container">
+              <button class="button-20 m-3" role="button" onclick="add()"> Add to Portfolio</button>
+            </div>
+            <div class="but-container">
+              <button class="button-20 m-3" role="button" onclick="del()"> Delete from Portfolio</button>
+            </div>
+        </div>
+{% endblock %}

@@ -1,0 +1,77 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    History
+{% endblock %}
+{% block main %}
+    <div id="chart"></div>
+    <div class="table-container m-3">
+        <div>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Coin</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Amount</th>
+                        <th scope="col">Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for transaction in transactions %}
+                    <tr>
+                        <td>{{ transaction.symbol}} {{ transaction.name}} </td>
+                        <td> {{ transaction.price }} </td>
+                        <td> {{ transaction.amount }} </td>
+                        <td> {{ transaction.price }} </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <p class="mt-5 text-center">Portfoilo value renews every day at 10:00</p>
+        </div>
+    </div>
+    <script>
+        var values=[]
+        var dates=[]
+        {% for value in values %}
+            values.push({{value.value}})
+            dates.push({{value.date}})
+        {% endfor %}
+        var options = {
+            series: [{
+              name: "Value",
+              data: values
+          }],
+            chart: {
+            height: 350,
+            type: 'line',
+            zoom: {
+              enabled: false
+            }
+          },
+          dataLabels: {
+            enabled: false
+          },
+          stroke: {
+            curve: 'smooth'
+          },
+          title: {
+            text: 'Portfolio value',
+            align: 'center'
+          },
+          grid: {
+            row: {
+              colors: ['#f3f3f3', 'transparent'],
+              opacity: 0.5
+            },
+          },
+          xaxis: {
+            categories: dates,
+          }
+          };
+  
+          var chart = new ApexCharts(document.querySelector("#chart"), options);
+          chart.render();
+        
+    </script>
+{% endblock %}

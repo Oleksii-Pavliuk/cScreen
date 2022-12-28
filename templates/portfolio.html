@@ -1,0 +1,141 @@
+<!--Usres portfolio page-->
+{% extends"layout.html" %}
+{% block title %}{{username}}'s wallet {% endblock %}
+
+{%block main%}
+<div class=" container-portfolio">
+    <div class="sidebar">
+        <div class="user">
+            <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+              </svg>
+
+              <div class="username">
+                <h5>{{username}} </h5>
+                <span>{{value}} $</span>
+              </div>
+        </div>
+
+        <div class="assets">
+                {% for asset in assets %}
+                <div class="assets-container">
+                    <aside><img width="55px" src="https://s2.coinmarketcap.com/static/img/coins/64x64/{{asset.id}}.png" alt="Logo"></aside>
+                    <div>
+                      <p style="font-weight:bold;">{{asset.symbol}} {{asset.name}} </p>
+                      <p>Amount: {{asset['SUM(amount)']}} Price:  {{asset.price}} $  </p> 
+                    </div>
+                    <button type="button" id="sell-button" class="button-20 ms-auto">Sell</button>
+                </div>
+                {% endfor %}
+        </div>
+
+    </div>
+
+    <div class="charts mt-5">
+            <div id="chart-heatmap"></div>
+            <div id="chart-pie"></div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<script>
+    //constant of screen Size
+    const x = window.matchMedia("(max-width: 800px)")
+    if(x.matches){
+      var width = 400
+    }else{
+      var width = 800
+    }
+    //create  lists with data about assets for pie chart
+    var symbols = []
+    var value = []
+        {% for asset in assets %}
+        symbols.push("{{asset.symbol}}")
+        value.push({{asset.price * asset['SUM(amount)']}})
+        {% endfor %}
+    //Pie chart 'Assets'
+    var options = {
+      series: value,
+      chart: {
+      width: 350,
+      type: 'pie',
+      },
+      labels: symbols,
+      responsive: [{
+        breakpoint: 480,
+        options: {
+          chart: {
+            width: 150
+          },
+          legend: {
+          },
+        }
+      }]
+    }
+    var chart = new ApexCharts(document.querySelector("#chart-pie"), options);
+    chart.render();
+    
+    //Treemap
+    var options = {
+      series: [
+      {
+        data:
+          {{tokens|safe}}
+      }
+    ],
+      legend: {
+      show: false
+    },
+    chart: {
+      height: 450,
+      width: width,
+      type: 'treemap'
+    },
+    title: {
+      text: 'Assets'
+    },
+    dataLabels: {
+      enabled: true,
+      style: {
+        fontSize: '12px',
+      },
+      formatter: function(text, op) {
+        return [text, op.value]
+      },
+      offsetY: -4
+    },
+    plotOptions: {
+      treemap: {
+        enableShades: true,
+        shadeIntensity: 0.5,
+        reverseNegativeShade: true,
+        colorScale: {
+          ranges: [
+            {
+              from: -6,
+              to: 0,
+              color: '#CD363A'
+            },
+            {
+              from: 0.001,
+              to: 6,
+              color: '#52B12C'
+            }
+          ]
+        }
+      }
+    }
+    };
+
+    var chart = new ApexCharts(document.querySelector("#chart-heatmap"), options);
+    chart.render();
+
+</script>
+
+{% endblock%}

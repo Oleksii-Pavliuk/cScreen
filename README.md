@@ -1,5 +1,5 @@
-# YOUR PROJECT TITLE
-#### Video Demo:  <URL HERE>
+# cScreen
+
 #### Description:
 This webapp created for my cs50 final project. To build this app i used Python for backend, SQL databases, JS,Jquery,Bootstrap,CSS,HTML5 and CoinMarketCap API to recive coins data.
 

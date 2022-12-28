@@ -1,0 +1,28 @@
+{% extends 'layout.html' %}
+{% block title  %}Password reset{% endblock %}
+{% block main %}
+<script>
+    let code = {{code|safe}}
+    window.onload = function(){
+      if(code === 1){
+        document.querySelector('#alert').style ='visibility:visible'
+      }
+    }
+  </script>
+  <!--Form to input email for password reset-->
+<div id="register" class="text-center">
+    <div class="form-signin w-100 m-auto">
+      <form action="/email_reset" method="post">
+        <h1 class="h3 mb-3 fs-1 fw-normal">Insert your email</h1>
+        <div id="alert" class="alert alert-danger" style="visibility: hidden;" role="alert">
+          {{alert}}
+        </div>
+        <div class="form-floating">
+          <input type="email" class="form-control mb-4" name="email" placeholder="name@example.com">
+          <label for="email">Email address</label>
+
+        <button class="w-100 fs-2 btn btn-lg btn-primary" type="submit">Reset</button>
+      </form>
+    </div>
+  </div>
+{% endblock %}

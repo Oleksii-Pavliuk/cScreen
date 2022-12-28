@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap integration -->
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" rel="stylesheet">
+    <script crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"></script>
+    <!--Apex charts link-->
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <!--JQuery link-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!--CSS link-->
+    <link rel="stylesheet" href="static/style.css">
+    <link rel="icon" type="" href="static/home3.png">
+    <meta name="description" content="CScreen is free cryptomonitorring application, portfolio managment tool and my final project for cs50 project ">
+
+    <title>cScreen - {% block title %}{% endblock %} | Free cryptocurrencies screener and portfolio manager</title>
+    <script>
+        function CloseInfo(){
+            document.querySelector("#info").innerHTML=' '
+        }
+    </script>
+</head>
+<body>
+    <!--Information modal-->
+{% if not session["user_id"] %}
+            <div  class="container-fluid bg-info fs-6" id="info"> 
+                <div> We glad to see you here,if you are here for first time it will be a good idea to read <a class="link-light" data-bs-toggle="modal" data-bs-target="#infoModal">info</a> about cScreen</div>
+                <button onclick="CloseInfo()" type="button" class="btn-close pe-2 ms" data-bs-dismiss="#info" aria-label="Close"></button>
+            </div>
+            <div class="modal fade text-center" id="infoModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="staticBackdropLabel">About cScreen</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body p-5 m-5">
+                      <h2>After creating account on cScreen you will have those options</h2>
+                      <br>
+                      <h2>Search</h2>
+                      <p>On this page you can search for any token and get the latest price, also you can add it to your portfolio</p>
+                      <br>
+                      <h2>Portfolio</h2>
+                      <p>This is your portfolio, here you can see information about your coins and charts that will show performance of your assets </p>
+                      <h2>History</h2>
+                      <p>Here you will see all your transactions and how you perform</p>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+{% endif %}
+              <!--Navigation with logo-->
+              <nav class="bg-light border navbar navbar-expand-md navbar-light text-center">
+                    <div class="container-fluid">
+                    <div class="button-49">
+                        <a href="/" class="d-flex align-items-center ms-1 mb-lg-0 me-lg-auto text-dark text-decoration-none">
+                            <span class="fs-1 ps-5"> cScreen</span>
+                        </a>
+                    </div>
+                    <button aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbar" data-bs-toggle="collapse" type="button">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbar">
+                    <!--Using jinja to show user different links in nav depending on logged him or not-->
+                  {% if session["user_id"] %}
+                    <ul class="nav mt-2 fs-3">
+                        <li class="nav-item p-1"><a class="nav-link link-dark" href="/search">Search</a></li>
+                        <li class="nav-item p-1"><a class="nav-link link-dark" href="/portfolio">Portfolio</a></li>
+                        <li class="nav-item p-1"><a class="nav-link link-dark" href="/history">History</a></li>
+                    </ul>
+                    {% else %} {% endif %}
+                
+                    {% if session["user_id"] %}
+                    <div class="text-center ms-auto">
+                        <a href="/logout">
+                            <button type="button" class="btn btn-outline-primary me-2 fs-5">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-door-open" viewBox="0 0 16 16">
+                                    <path d="M8.5 10c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1z"/>
+                                    <path d="M10.828.122A.5.5 0 0 1 11 .5V1h.5A1.5 1.5 0 0 1 13 2.5V15h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V1.5a.5.5 0 0 1 .43-.495l7-1a.5.5 0 0 1 .398.117zM11.5 2H11v13h1V2.5a.5.5 0 0 0-.5-.5zM4 1.934V15h6V1.077l-6 .857z"/>
+                                </svg> 
+                                Sign out
+                            </button>
+                        </a>
+                    </div>
+                    {% else %}
+                    <div class="text-center ms-auto">
+                        <a href="/register" >
+                            <button type="button" class="btn btn-outline-primary me-2 fs-5">Register</button>
+                        </a>
+                        <a href="/login">
+                            <button type="button" class="btn btn-primary fs-5">Log In</button>
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+        <main>
+            {% block main %}{% endblock %}
+        </main>
+        <!--Footer-->
+        <footer class="footer">
+            <div class="text-center">Data provided by <a href="https://coinmarketcap.com">Coinmarketcap</a></div>
+            <div class="text-center">
+                    <a href="">Support</a>
+                    <a class="p-2" href="">Contacts</a>
+                    <a href="">About </a>
+            </div>
+            <div class="text-center mt-auto f-1">cScreen 2022</div>
+        </footer>
+</body>
+</html>

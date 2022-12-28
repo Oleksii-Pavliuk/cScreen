@@ -1,0 +1,104 @@
+{% extends "layout.html" %}
+
+{% block title %}Homepage{% endblock %}
+
+{% block main %}
+    <div id="banner" class="position-relative container overflow-hidden p-5 p-md-5 mt-5 mb-5 text-center bg-light">
+        <div class="col-md-5 p-lg-5 mx-auto my-5">
+        <h1 class="display-4 fw-normal">Simple, Private, Free, Secure</h1>
+        </div>
+        <div class="product-device shadow-sm d-none d-md-block"></div>
+        <div class="product-device product-device-2 shadow-sm d-none d-md-block"></div>
+    </div>
+    <div class="container marketing">
+
+        <!-- Three columns of text below the carousel -->
+        <div class="row">
+          <div class="col-lg-4 text-center">
+            <img src="../static/Simple.png" class="bd-placeholder-img" width="140" height="140" role="img"  focusable="false">
+    
+            <h2 class="fw-normal">Simple</h2>
+            <p>crScreen allows you to monitor and controll your assets in easy and intuitive way</p>
+            <p><a class="btn btn-secondary" href="#">View details »</a></p>
+          </div><!-- /.col-lg-4 -->
+          <div class="col-lg-4 text-center">
+            <img src="../static/Secure.png" class="bd-placeholder-img " width="140" height="140" role="img"   focusable="false">
+    
+            <h2 class="fw-normal">Secure</h2>
+            <p>We encrypting all data,we not require your identity and we not using cookies</p>
+            <p><a class="btn btn-secondary" href="#">View details »</a></p>
+          </div><!-- /.col-lg-4 -->
+          <div class="col-lg-4 text-center">
+            <img src="../static/FReE.png" class="bd-placeholder-img" width="140" height="140" role="img" focusable="false">
+    
+            <h2 class="fw-normal">Free</h2>
+            <p>And most of the options cScreen provides for you is free</p>
+            <p><a class="btn btn-secondary" href="#">View details »</a></p>
+          </div><!-- /.col-lg-4 -->
+        </div><!-- /.row -->
+    
+    
+        <!-- START THE FEATURETTES -->
+        <hr class="featurette-divider">
+    
+        <div class="row featurette">
+          <div class="col-md-7">
+            <h2 class="featurette-heading fw-normal lh-1">Charts.<span class="text-muted"> Watch how your portfolio changes.</span></h2>
+            <p class="lead">You don't need spreadsheets anymore. cScreen is created to hold all information about your portfolio in one place so you can see how their value changes on our chart.</p>
+          </div>
+          <div class="col-md-5">
+            <img src="../static/home1.png" class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500">
+    
+          </div>
+        </div>
+    
+        <hr class="featurette-divider">
+    
+        <div class="row featurette">
+          <div class="col-md-7 order-md-2">
+            <h2 class="featurette-heading fw-normal lh-1">Robots.<span class="text-muted"> Gain profits.</span></h2>
+            <p class="lead">After long market reserches we found most profitable longterm strategies. It's not daily in-out , using efficent strategies that will give you about 9% avarage annual return, including fees.</p>
+          </div>
+          <div class="col-md-5 order-md-1">
+            <img src="../static/home2.png" class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500">
+          </div>
+        </div>
+    
+        <hr class="featurette-divider">
+    
+        <div class="row featurette">
+          <div class="col-md-7">
+            <h2 class="featurette-heading fw-normal lh-1">Security.<span class="text-muted"> Keep your data safe.</span></h2>
+            <p class="lead">We care about our customers and understand, that this data should be secured. So we will treat yours data with extra security meassures.</p>
+          </div>
+          <div class="col-md-5">
+            <img src="../static/home3.png" class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg">
+          </div>
+        </div>
+    
+        <hr class="featurette-divider">
+        <!-- /END THE FEATURETTES -->
+    
+      </div>
+
+  <div class="px-4 pt-5 text-center border-bottom">
+    <div class="col-lg-6 mx-auto">
+      {% if session["user_id"] %}
+      <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+        <a href="/portfolio"><button type="button" class="btn btn-primary btn-lg px-4 me-sm-3">Your portfolio</button></a>
+      </div>
+      {% else %}
+      <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+        <a href="/register"><button type="button" class="btn btn-primary btn-lg px-4 me-sm-3">Sign up</button></a>
+        <a href="/login"><button type="button" class="btn btn-outline-secondary btn-lg px-4">Sign in</button></a>
+      </div>
+      {% endif %}
+    </div>
+    <div class="overflow-hidden" style="max-height: 30vh;">
+      <div class="container px-5 mt-3">
+        <img src="../static/Screen.png" class="img-fluid border rounded-3 shadow-lg" alt=" " width="700" height="500" loading="lazy">
+      </div>
+    </div>
+  </div>
+
+{% endblock  %}
